@@ -3,13 +3,19 @@ from env import ENV as env
 
 class Meta(type):
     def __new__(cls, name, bases, dct):
+        bastract = dct.get('__abstract__', None)
+
+        if bastract:
+            return super().__new__(cls, name, bases, dct)
+
         # Check if _name and _inherit are in the class dictionary
         model_name = dct.get('_name', None)
         inherit_class_name = dct.get('_inherit', None)
 
         # If _inherit is specified and exists in models, create a new class with the desired inheritance
         if inherit_class_name:
-            if (inherit_class := env[inherit_class_name]):  # inherit_class = env[inherit_class_name]
+            inherit_class = env[inherit_class_name]
+            if inherit_class:
                 bases = (inherit_class,) + tuple(bases)
 
         # Create the new class
