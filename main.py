@@ -24,6 +24,8 @@ if __name__ == '__main__':
         username = Column(String, nullable=False)
         name = Column(String)
         new_field = Column(String)
+        email = Column(String)
+        phone = Column(String)
 
         def create(self):
             res = super().create()
@@ -33,7 +35,8 @@ if __name__ == '__main__':
 
     ENV.start()
     results = ENV.get_all_tables()
-    Base.metadata.create_all(engine, tables=results)
+    print(results)
+    Base.metadata.create_all(engine)
 
     user = ENV['res_users']()
     print(ENV.models)
