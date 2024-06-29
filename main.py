@@ -47,9 +47,11 @@ if __name__ == '__main__':
 
     # print()
     # print(dir(user.id))
-    print()
+    # print()
     user.__table__.columns.id.table = user.__table__
+    # print(user.env)
+    print(user.search())
     # user.id.table = user
-    print(user.db.query(user.__table__).filter(user.__table__.columns.id == 1).first())
+    # print(user.db.query(user.__table__).filter(user.__table__.columns.id == 1).first())
 
     # print(dir())#.query(ENV['res_users']).filter(user.id == 1).first())

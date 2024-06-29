@@ -7,7 +7,9 @@ class Model(metaclass=Meta):
     id = Column(Integer, primary_key=True)
 
     def search(self):
-        return "search method from Model."
+        # print(self.env.__table__)
+        self.__table__.columns.id.table = self.__table__
+        return self.db.query(self.__table__).filter(self.__table__.columns.id == 1).all()
 
     def create(self):
         return "create method from Model."

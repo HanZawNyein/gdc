@@ -14,7 +14,7 @@ class Env(object):
 
     def __getitem__(self, model_name):
         model = self._models.get(model_name)
-        model.env = self
+        model.env = self._models[model_name]
         model.db = SessionLocal()
         return model
 
