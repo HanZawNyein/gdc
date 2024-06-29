@@ -2,19 +2,21 @@
 
 from sqlalchemy import Table, Column
 
-from database.db import Base
+from database.db import Base, SessionLocal
 
 
 class Env(object):
     _models: dict[str, object] = {}
-    models: dict[str, object] = {}
 
 
     def __setitem__(self, model_name, instance):
         self._models[model_name] = instance
 
     def __getitem__(self, model_name):
-        return self._models.get(model_name)
+        model = self._models.get(model_name)
+        model.env = self
+        model.db = SessionLocal()
+        return model
 
     def start(self):
         # Instantiate all model classes stored in the dictionary
@@ -24,7 +26,7 @@ class Env(object):
             # cls.__tablename__ = cls._name if hasattr(cls, '_name') else cls._inherit
             # cls.name = cls._name if hasattr(cls, '_name') else cls._inherit
             self._models[name] = cls
-        self.models = self._models.copy()
+        # self.models = self._models.copy()
 
     def get_all_tables(self):
         results = []

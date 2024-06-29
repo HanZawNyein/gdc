@@ -35,9 +35,18 @@ if __name__ == '__main__':
 
     ENV.start()
     results = ENV.get_all_tables()
-    print(results)
+    # print(results)
     Base.metadata.create_all(engine)
 
     user = ENV['res_users']()
-    print(ENV.models)
-    print(user.create())
+    # print(ENV['res_users'])
+
+    # print(ENV._models)
+    # print(user.create())
+    print(user.__table__)
+    user.id.table = None
+
+    print()
+    print(user.db.query(user.__table__).filter(user.id == 1).first())
+
+    # print(dir())#.query(ENV['res_users']).filter(user.id == 1).first())
