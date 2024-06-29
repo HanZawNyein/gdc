@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String
 
 from database.db import Base, engine
 from database.env import ENV
@@ -21,6 +21,7 @@ if __name__ == '__main__':
         _name = "res_users2"
         _inherit = "res_users"
 
+        username = Column(String, nullable=False)
         name = Column(String)
         new_field = Column(String)
 
