@@ -43,10 +43,13 @@ if __name__ == '__main__':
 
     # print(ENV._models)
     # print(user.create())
-    print(user.__table__)
-    user.id.table = None
+    # print(user.__table__)
 
+    # print()
+    # print(dir(user.id))
     print()
-    print(user.db.query(user.__table__).filter(user.id == 1).first())
+    user.__table__.columns.id.table = user.__table__
+    # user.id.table = user
+    print(user.db.query(user.__table__).filter(user.__table__.columns.id == 1).first())
 
     # print(dir())#.query(ENV['res_users']).filter(user.id == 1).first())

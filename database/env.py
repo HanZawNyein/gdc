@@ -31,10 +31,15 @@ class Env(object):
     def get_all_tables(self):
         results = []
         for name, cls in self._models.items():
-            ...
             new_table = self.create_table(name)
             self._models[name].__table__ = new_table
             results.append(new_table)
+        # print(results)
+        # for table in results:
+        #     for col in table.columns:
+        #         if col.table != table:
+        #             col.table = table
+        # print(results)
         return results
 
     def create_table(self, model_name):
@@ -53,5 +58,6 @@ class Env(object):
                 col.table = None
         table = Table(model_cls.__tablename__, Base.metadata, *columns)
         return table
+
 
 ENV = Env()
