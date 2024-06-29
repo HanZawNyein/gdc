@@ -1,8 +1,8 @@
 # ENV = {}
 
-from sqlalchemy import Table, Column, MetaData
+from sqlalchemy import Table, Column
 
-from db import Base
+from database.db import Base
 
 
 class Env(object):

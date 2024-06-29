@@ -1,4 +1,4 @@
-from env import ENV as env
+from database.env import ENV as env
 
 
 class Meta(type):
