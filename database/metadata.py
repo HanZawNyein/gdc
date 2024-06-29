@@ -13,10 +13,19 @@ class Meta(type):
         inherit_class_name = dct.get('_inherit', None)
 
         # If _inherit is specified and exists in models, create a new class with the desired inheritance
+        # print(dct)
         if inherit_class_name:
             inherit_class = env[inherit_class_name]
             if inherit_class:
-                bases = (inherit_class,)+ tuple(bases)
+                print(cls.__dict__.items())
+                org = dct.copy()
+                # print(org)
+                # print(type(bases))
+                # print(bases)
+                # print(inherit_class)
+                bases = (inherit_class,)
+                # dct.update(org)
+                # print(dct)
 
         # Create the new class
         instance = super().__new__(cls, name, bases, dct)

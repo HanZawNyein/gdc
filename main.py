@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, Integer
 
 from database.db import Base, engine
 from database.env import ENV
@@ -10,6 +10,18 @@ if __name__ == '__main__':
 
         name = Column(String)
         username = Column(String, nullable=True)
+
+        def create(self):
+            res = super().create()
+            print("create method from BaseModel")
+            return res
+
+
+    class BaseModel2(Model):
+        _name = "res_users2"
+        _inherit = "res_users"
+
+        name = Column(String)
         new_field = Column(String)
 
         def create(self):
@@ -23,4 +35,5 @@ if __name__ == '__main__':
     Base.metadata.create_all(engine, tables=results)
 
     user = ENV['res_users']()
+    print(ENV.models)
     print(user.create())

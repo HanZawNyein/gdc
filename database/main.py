@@ -17,8 +17,21 @@ if __name__ == '__main__':
             print("create method from BaseModel")
             return res
 
+    class BaseModel2(Model):
+        _name = "res_users2"
+
+        name = Column(String)
+        username = Column(String, nullable=True)
+        new_field = Column(String)
+
+        def create(self):
+            res = super().create()
+            print("create method from BaseModel")
+            return res
+
 
     ENV.start()
+    print(ENV.models)
     results = ENV.get_all_tables()
     Base.metadata.create_all(engine, tables=results)
 
