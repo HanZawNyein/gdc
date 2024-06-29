@@ -8,15 +8,13 @@ SQLALCHEMY_DATABASE_URL = "postgresql://odoo:odoo@localhost/db_gdc"
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, echo=True,#connect_args={"check_same_thread": True}
 )
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Base = declarative_base()
 class Base(DeclarativeBase):
     pass
 
-metadata_obj = MetaData()
+# metadata_obj = MetaData()
 
 if __name__ == '__main__':
-    metadata_obj.create_all(bind=engine)
-# class Base(DeclarativeBase):
-#     pass
+    Base.metadata.create_all(bind=engine)

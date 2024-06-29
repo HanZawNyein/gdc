@@ -1,15 +1,26 @@
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import mapped_column, Mapped, relationship
+from sqlalchemy import Column, String
 
-from database.db import SessionLocal, engine, Base
+from database.db import Base, engine
+from database.env import ENV
+from database.models import Model
+
+if __name__ == '__main__':
+    class BaseModel(Model):
+        _name = "res_users"
+
+        name = Column(String)
+        username = Column(String, nullable=True)
+        new_field = Column(String)
+
+        def create(self):
+            res = super().create()
+            print("create method from BaseModel")
+            return res
 
 
-class Address(Base):
-    __tablename__ = "address"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    email_address: Mapped[str]
+    ENV.start()
+    results = ENV.get_all_tables()
+    Base.metadata.create_all(engine, tables=results)
 
-
-db = SessionLocal()
-
-Base.metadata.create_all(bind=engine)
+    user = ENV['res_users']()
+    print(user.create())

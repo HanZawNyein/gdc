@@ -2,12 +2,13 @@
 
 from sqlalchemy import Table, Column, MetaData
 
-from db import Base, metadata_obj
+from db import Base
 
 
 class Env(object):
     _models: dict[str, object] = {}
     models: dict[str, object] = {}
+
 
     def __setitem__(self, model_name, instance):
         self._models[model_name] = instance
@@ -39,19 +40,22 @@ class Env(object):
         model_cls = self._models[model_name]
         model_cls.__tablename__ = model_name.lower().replace('.', '_')
         # metadata = MetaData()
-        print(model_cls.__dict__.items())
-        for attr_name, attr in model_cls.__dict__.items():
-            # print(attr_name,attr,Column)
-            if isinstance(attr, Column):
-                attr.name = attr_name
-                print(attr, Column)
-
-        columns = [attr for attr_name, attr in model_cls.__dict__.items() if isinstance(attr, Column)]
+        # print(model_cls.__dict__.items())
+        # columns  = []
+        # print(dir(model_cls))
+        columns = []
+        for attr in dir(model_cls):
+            if not attr.startswith('__'):
+                obj = getattr(model_cls,attr)
+                if isinstance(obj,Column):
+                    obj.name = attr
+                    # print(obj,type(obj))
+                    columns.append(obj)
+        # columns.extend([attr for attr_name, attr in model_cls.__dict__.items() if isinstance(attr, Column)])
         for column in columns:
             if not column.name:
                 column.name = column.key
-        # print(columns)
-        table = Table(model_cls.__tablename__, metadata_obj, *columns)
+        table = Table(model_cls.__tablename__, Base.metadata, *columns)
         return table
 
     # def create_table(self, name):
